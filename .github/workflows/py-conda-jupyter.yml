@@ -22,8 +22,6 @@ jobs:
           brew install docker docker-machine
           docker-machine create --driver virtualbox default
           docker-machine restart
-          eval "$(docker-machine env default)"
-          docker-machine restart
 
       - name: Build the Docker image
         run: docker  build . -f Dockerfile-py-conda-jupyter -t tzoght/py-conda-jupyter:$(date +%s)
