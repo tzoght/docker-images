@@ -11,8 +11,13 @@ jobs:
   build:
 
     runs-on: macos-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker  build . -f Dockerfile-py-conda-jupyter -t tzoght/py-conda-jupyter:$(date +%s)
+      - uses: actions/checkout@v2
+      - name: Install docker # Taken from https://github.com/actions/virtual-environments/issues/1143#issuecomment-652264388
+        run: |
+          mkdir -p ~/.docker/machine/cache
+          curl -Lo ~/.docker/machine/cache/boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso
+          brew install docker docker-machine
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker  build . -f Dockerfile-py-conda-jupyter -t tzoght/py-conda-jupyter:$(date +%s)
